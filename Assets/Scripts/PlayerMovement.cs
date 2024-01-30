@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     float horizontalInput;
     float verticalInput;
-    boolean 
+    private bool doJump = false;
 
     Vector3 moveDirection;
 
@@ -49,8 +49,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        PlayerMovementManager();
+    }
+
+    private void PlayerMovementManager(){
         MovePlayer();
-        jump();
+        if(doJump)
+            jump();
     }
 
     private void MovePlayer(){
@@ -80,5 +85,7 @@ public class PlayerMovement : MonoBehaviour
     private void jumpCommandCheck(){
         if(Input.GetKey("space"))
             doJump = true;
+        else
+            doJump = false;
     }
 }
