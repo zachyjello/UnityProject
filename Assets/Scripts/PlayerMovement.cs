@@ -18,11 +18,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     public int curJumpCount;
     public int maxJumpCount;
-    public int jumpCooldown;
+    public float jumpCooldown;
+    public float jumpTimer;
     public float jumpForce;
     float horizontalInput;
     float verticalInput;
     private bool doJump = false;
+    private bool hasJumped = false;
 
     Vector3 moveDirection;
 
@@ -45,14 +47,11 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         groundCheck();
         jumpCommandCheck();
+        
     }
 
     private void FixedUpdate()
     {
-        PlayerMovementManager();
-    }
-
-    private void PlayerMovementManager(){
         MovePlayer();
         if(doJump)
             jump();
@@ -75,17 +74,27 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void jump(){
-        if(curJumpCount > 0){
-            curJumpCount--;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Force);
-        }
-        if(grounded)
-            curJumpCount = maxJumpCount;
+        rb.AddForce(Vector3.up * jumpForce);
     }
     private void jumpCommandCheck(){
-        if(Input.GetKey("space"))
+        if(grounded){
+            curJumpCount = maxJumpCount;
+            hasJumped = false;
+        }
+        if(curJumpCount > 0 && jumpCooldown<=0 && Input.GetKeyDown("space")){
+            curJumpCount--;
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Force);
+            jumpCooldown = jumpTimer;
             doJump = true;
-        else
+            hasJumped = true;
+        }
+        else{
             doJump = false;
+            jumpCooldown-=Time.deltaTime;
+        }
+    }
+    private void noSlipping(){
+        if(!hasJumped)
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
     }
 }
