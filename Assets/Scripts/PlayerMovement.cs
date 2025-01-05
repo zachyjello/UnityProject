@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Scriptable_Objects;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 moveDirection;
 
+    public PlayerDataSO playerData;
+
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
@@ -44,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        playerData.position = transform.position;
         MyInput();
         groundCheck();
         jumpCommandCheck();

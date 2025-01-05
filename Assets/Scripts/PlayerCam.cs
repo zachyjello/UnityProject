@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Scriptable_Objects;
 
 public class PlayerCam : MonoBehaviour
 {
     public float sensX;
     public float sensY;
     public Transform orientation;
+    public PlayerDataSO playerData;
 
     float xRotation;
     float yRotation;
@@ -31,6 +33,8 @@ public class PlayerCam : MonoBehaviour
 
         // Rotate cam and orientation
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        playerData.rotation = transform.rotation;
+
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
     }
 }

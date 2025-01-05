@@ -1,11 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Scriptable_Objects
 {
-    public class NewEditorScript1 : ScriptableObject
+    public abstract class GenericEnemySO : ScriptableObject
     {
-        [MenuItem("Tools/MyTool/Do It in C#")]
+        public float maxHealth;
         static void DoIt()
         {
             EditorUtility.DisplayDialog("MyTool", "Do It in C# !", "OK", "");
