@@ -10,6 +10,7 @@ namespace Assets.Scripts
         public NavMeshAgent agent;
         Rigidbody rb;
         enemyState state = enemyState.passive;
+        public int health = 100;
         enum enemyState
         {
             passive,
@@ -40,14 +41,17 @@ namespace Assets.Scripts
            
         }
 
-        public void ReceiveDamage(float Damage)
+        public void ReceiveDamage(int Damage)
         {
-
+            health -= Damage;
+            Debug.Log("Enemy health = " + health);
+            if (health <= 0) OnDeath();
         }
 
         public void OnDeath()
         {
-
+            Debug.Log("Enemy has been killed");
+            Destroy(this.gameObject);
         }
     }
 }

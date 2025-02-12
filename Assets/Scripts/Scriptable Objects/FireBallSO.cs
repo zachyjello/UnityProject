@@ -20,8 +20,7 @@ namespace Assets.Scripts.Scriptable_Objects
             SpellFireBall fireballScript = fireballObject.AddComponent(typeof(SpellFireBall)) as SpellFireBall;
             if(fireballScript != null)
             {
-                fireballScript.Initialize(PlayerPos, PlayerRotation);
-                fireballScript.SetSpellData(this);
+                fireballScript.Initialize(PlayerPos, PlayerRotation, this);
             }
 
         }

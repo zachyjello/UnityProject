@@ -8,7 +8,7 @@ namespace Assets.Scripts.Interfaces
 {
     interface IDamageable
     {
-        public abstract void ReceiveDamage(float Damage);
+        public abstract void ReceiveDamage(int Damage);
 
         public abstract void OnDeath();
     }

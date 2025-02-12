@@ -11,7 +11,7 @@ namespace Assets.Scripts
         protected SphereCollider myCollider;
         protected Rigidbody myRigidbody;
 
-        public abstract void Initialize(Vector3 PlayerPos, Quaternion PlayerRotation);
+        public abstract void Initialize(Vector3 PlayerPos, Quaternion PlayerRotation, GenreicSpellSO spell);
 
         //public abstract void SetSpellData(SpellSO spell);
         public abstract void OnExpiration();

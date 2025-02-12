@@ -18,11 +18,11 @@ MonoBehaviour:
   spellName: 
   coolDownDuration: 0
   spellDuration: 0
-  radius: 5
+  radius: 0.5
   lifetime: 5
   spellObject: {fileID: 9184619262825297014, guid: 1bc8a4a97b9d6c44bac5e058b159d549, type: 3}
-  health: 0
+  health: 20
   maxHealth: 0
   mana: 0
   maxMana: 0
-  speed: 10
+  speed: 20

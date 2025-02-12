@@ -11,7 +11,7 @@ namespace Assets.Scripts.Scriptable_Objects
         public string spellName;
         public int coolDownDuration;
         public int spellDuration;
-        public int radius;
+        public float radius;
         public int lifetime;
         public GameObject spellObject;
 
