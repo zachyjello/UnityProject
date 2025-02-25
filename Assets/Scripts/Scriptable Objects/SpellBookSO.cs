@@ -8,20 +8,20 @@ namespace Assets.Scripts.Scriptable_Objects
     public class SpellBookSO : ScriptableObject
     {
         public int spellAmount;
-        public List<GenreicSpellSO> spells;
-        public List<GenreicSpellSO> unlockedSpells;
+        public List<ISpellSO> spells;
+        public List<ISpellSO> unlockedSpells;
 
-        public void unlockSpell(GenreicSpellSO newSpell)
+        public void unlockSpell(ISpellSO newSpell)
         {
             if (!unlockedSpells.Contains(newSpell))
                 unlockedSpells.Add(newSpell);
         }
-        public void addSpell(GenreicSpellSO spellToAdd)
+        public void addSpell(ISpellSO spellToAdd)
         {
             if (!(spells.Count > spellAmount))
                 spells.Add(spellToAdd);
         }
-        public List<GenreicSpellSO> getSpells()
+        public List<ISpellSO> getSpells()
         {
             return spells;
         }

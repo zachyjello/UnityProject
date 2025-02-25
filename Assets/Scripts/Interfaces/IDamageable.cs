@@ -8,8 +8,8 @@ namespace Assets.Scripts.Interfaces
 {
     interface IDamageable
     {
-        public abstract void ReceiveDamage(int Damage);
+        public void ReceiveDamage(int Damage);
 
-        public abstract void OnDeath();
+        public void OnDeath();
     }
 }

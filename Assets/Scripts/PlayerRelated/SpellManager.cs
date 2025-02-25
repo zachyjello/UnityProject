@@ -12,7 +12,7 @@ namespace Assets.Scripts
         public PlayerDataSO playerData;
         public SpellBookSO spellBook;
         private int spellAmount;
-        private List<GenreicSpellSO> spells;
+        private List<ISpellSO> spells;
         // Use this for initialization
         void Start()
         {
