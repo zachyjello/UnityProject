@@ -12,17 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee798c76b3cd98744ba5c25b9c714a58, type: 3}
   m_Name: FireBall
   m_EditorClassIdentifier: 
+  spellName: FireBall
+  cooldown: 5
+  fireBallObject: {fileID: 9184619262825297014, guid: 1bc8a4a97b9d6c44bac5e058b159d549, type: 3}
+  damage: 100
   manaCost: 5
-  continousCast: 0
-  castTime: 0
-  spellName: 
-  coolDownDuration: 0
-  spellDuration: 0
-  radius: 0.5
-  lifetime: 5
-  spellObject: {fileID: 9184619262825297014, guid: 1bc8a4a97b9d6c44bac5e058b159d549, type: 3}
-  health: 20
-  maxHealth: 0
-  mana: 0
-  maxMana: 0
   speed: 20
+  lifetime: 5
+  radius: 0.5
+  castTime: 0
