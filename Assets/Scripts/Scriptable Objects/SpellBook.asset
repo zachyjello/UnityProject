@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57fa72387f11b340915a43ef0824a1e, type: 3}
   m_Name: SpellBook
   m_EditorClassIdentifier: 
-  spellAmount: 0
+  spellAmount: 1

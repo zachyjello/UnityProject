@@ -8,7 +8,10 @@ namespace Assets.Scripts.Scriptable_Objects
     public class SpellBookSO : ScriptableObject
     {
         public int spellAmount;
+
+        [SerializeReference]
         public List<ISpellSO> spells;
+        [SerializeReference]
         public List<ISpellSO> unlockedSpells;
 
         public void unlockSpell(ISpellSO newSpell)
