@@ -13,3 +13,11 @@ MonoBehaviour:
   m_Name: SpellBook
   m_EditorClassIdentifier: 
   spellAmount: 1
+  spells:
+  - rid: -2
+  unlockedSpells: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

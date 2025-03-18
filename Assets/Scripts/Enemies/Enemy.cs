@@ -11,6 +11,7 @@ namespace Assets.Scripts
         Rigidbody rb;
         enemyState state = enemyState.passive;
         public int health = 100;
+        public int maxHealth = 100;
         enum enemyState
         {
             passive,
@@ -18,11 +19,13 @@ namespace Assets.Scripts
             agro
         }
 
-        // Use this for initialization
-        void Start()
+        [SerializeField] private FloatingHealthBar healthBar;
+
+        private void Awake()
         {
             rb = GetComponent<Rigidbody>();
             rb.freezeRotation = true;
+            healthBar = GetComponentInChildren<FloatingHealthBar>();
         }
 
         // Update is called once per frame
@@ -45,6 +48,7 @@ namespace Assets.Scripts
         {
             health -= Damage;
             Debug.Log("Enemy health = " + health);
+            healthBar.UpdateHealthBar(health, maxHealth);
             if (health <= 0) OnDeath();
         }
 
