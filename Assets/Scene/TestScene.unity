@@ -921,7 +921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: e3598797b480c2f4bb0b9b31beafe4e0, type: 2}
-  spellBook: {fileID: 0}
+  spellBook: {fileID: 11400000, guid: ddfe8aa8f60b37e4f861f5999e6e8b5d, type: 2}
 --- !u!1001 &897049986
 PrefabInstance:
   m_ObjectHideFlags: 0
