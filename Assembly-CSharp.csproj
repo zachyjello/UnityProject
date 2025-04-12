@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Scriptable Objects\PlayerDataSO.cs" />
     <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\GenericEnemySO.cs" />
+    <Compile Include="Assets\Scripts\UI\FloatingHealthBar.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\SpellBookSO.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellFireBall.cs" />
     <Compile Include="Assets\Scripts\PlayerRelated\SpellManager.cs" />
