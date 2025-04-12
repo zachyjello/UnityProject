@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -867,8 +867,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  groundDrag: 5
-  airDrag: 3
+  groundDrag: 0.7
+  airDrag: 0.7
   orientation: {fileID: 1102838546}
   whatIsGround:
     serializedVersion: 2
@@ -879,7 +879,7 @@ MonoBehaviour:
   maxJumpCount: 2
   jumpCooldown: 1
   jumpTimer: 0
-  jumpForce: 1000
+  jumpForce: 10
   playerData: {fileID: 11400000, guid: e3598797b480c2f4bb0b9b31beafe4e0, type: 2}
 --- !u!54 &884885752
 Rigidbody:
@@ -921,7 +921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: e3598797b480c2f4bb0b9b31beafe4e0, type: 2}
-  spellBook: {fileID: 0}
+  spellBook: {fileID: 11400000, guid: ddfe8aa8f60b37e4f861f5999e6e8b5d, type: 2}
 --- !u!1001 &897049986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -978,6 +978,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Damageable
       objectReference: {fileID: 0}
+    - target: {fileID: 6283077251550156773, guid: 7d23e321c0b33804d8d6fe504ca401c7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2150e475e3021bc43b3a0ab9891df09a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
