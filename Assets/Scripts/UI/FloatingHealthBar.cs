@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +10,11 @@ public class FloatingHealthBar : MonoBehaviour
     {
         slider.value = partialValue / totalValue;
     }
-    // Update is called once per frame
+
     void Update()
     {
-        transform.rotation = camera.transform.rotation;
+        Vector3 cameraRotation = camera.transform.rotation.eulerAngles;
+        slider.transform.rotation = Quaternion.Euler(0, cameraRotation.y, 0);
+        slider.transform.position = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
     }
 }
