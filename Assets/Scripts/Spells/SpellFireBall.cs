@@ -24,6 +24,9 @@ namespace Assets.Scripts
             _collider = gameObject.AddComponent<SphereCollider>();
             _rigidbody = gameObject.AddComponent<Rigidbody>();
 
+            _rigidbody.mass = 0.01f;
+            _rigidbody.useGravity = false;
+
             transform.position = PlayerPos + PlayerRotation*Vector3.forward*spawnDistance;
             transform.rotation = PlayerRotation;
 
@@ -33,19 +36,22 @@ namespace Assets.Scripts
 
         void Update()
         {
-            Debug.Log("Fireball Moving");
             transform.Translate(Vector3.forward * _spellData.speed * Time.deltaTime);
+            _rigidbody.MovePosition(Vector3.forward * _spellData.speed * Time.deltaTime);
         }
 
         void OnCollisionEnter(Collision collision)
         {
             IDamageable damageableTarget = collision.gameObject.GetComponent<IDamageable>();
-            if (collision.gameObject.tag != "Player")
+            switch (collision.gameObject.tag)
             {
-                damageableTarget.ReceiveDamage(_spellData.damage);
-                Debug.Log(collision.gameObject.tag);
-                Debug.Log("fireball exploded");
-                Destroy(this.gameObject);
+                case "Damageable":
+                    damageableTarget.ReceiveDamage(_spellData.damage);
+                    Destroy(this.gameObject);
+                    break;
+                default:
+                    Destroy(this.gameObject);
+                    break;
             }
         }
 

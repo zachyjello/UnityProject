@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Scriptable_Objects;
-using Assets.Scripts.Interfaces; 
 
 
 
@@ -36,10 +35,6 @@ namespace Assets.Scripts
                     spells[0].Cast(playerData.position, playerData.rotation);
                     Debug.Log("Fireball launched");
                 }
-            }
-            else
-            {
-                Debug.Log("No spell launched");
             }
         }
     }

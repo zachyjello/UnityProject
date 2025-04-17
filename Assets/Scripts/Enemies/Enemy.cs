@@ -47,7 +47,6 @@ namespace Assets.Scripts
         public void ReceiveDamage(int Damage)
         {
             health -= Damage;
-            Debug.Log("Enemy health = " + health);
             healthBar.UpdateHealthBar(health, maxHealth);
             if (health <= 0) OnDeath();
         }

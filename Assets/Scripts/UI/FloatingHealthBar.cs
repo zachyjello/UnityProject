@@ -4,11 +4,16 @@ using UnityEngine.UI;
 public class FloatingHealthBar : MonoBehaviour
 {
     [SerializeField] private Slider slider;
-    [SerializeField] private Camera camera;
+    [SerializeField] private new Camera camera;
 
     public void UpdateHealthBar(float partialValue, float totalValue)
     {
-        slider.value = partialValue / totalValue;
+        slider.value = 1-partialValue / totalValue;
+    }
+
+    private void Start()
+    {
+        slider.value = 0;
     }
 
     void Update()

@@ -15,9 +15,9 @@ MonoBehaviour:
   spellName: FireBall
   cooldown: 5
   fireBallObject: {fileID: 9184619262825297014, guid: 1bc8a4a97b9d6c44bac5e058b159d549, type: 3}
-  damage: 100
+  damage: 5
   manaCost: 5
-  speed: 20
+  speed: 30
   lifetime: 5
   radius: 0.5
   castTime: 0

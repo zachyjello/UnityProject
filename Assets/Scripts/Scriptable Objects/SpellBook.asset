@@ -14,10 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellAmount: 1
   spells:
-  - rid: -2
+  - {fileID: 11400000, guid: e9928adade2a098439cf3c45bf724386, type: 2}
   unlockedSpells: []
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []

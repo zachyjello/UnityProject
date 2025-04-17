@@ -316,7 +316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 200912385}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 411873053}
   - component: {fileID: 411873052}
   - component: {fileID: 411873051}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -910,7 +910,7 @@ GameObject:
   - component: {fileID: 884885752}
   - component: {fileID: 884885751}
   - component: {fileID: 884885753}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1056,6 +1056,10 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5231686296903417598, guid: 7d23e321c0b33804d8d6fe504ca401c7, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5231686296903417598, guid: 7d23e321c0b33804d8d6fe504ca401c7, type: 3}
       propertyPath: m_TagString
       value: Damageable
       objectReference: {fileID: 0}
@@ -1093,7 +1097,7 @@ GameObject:
   - component: {fileID: 1018096613}
   - component: {fileID: 1018096614}
   - component: {fileID: 1018096615}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1167,7 +1171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1028597784}
   - component: {fileID: 1028597783}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,7 +1260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1093103807}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1292,7 +1296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1102838546}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Orientation
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1477,7 +1481,7 @@ GameObject:
   - component: {fileID: 1866798465}
   - component: {fileID: 1866798467}
   - component: {fileID: 1866798466}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1657,7 +1661,7 @@ GameObject:
   - component: {fileID: 2061618144}
   - component: {fileID: 2061618146}
   - component: {fileID: 2061618145}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1832,7 +1836,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2147181961}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CameraPos
   m_TagString: Player
   m_Icon: {fileID: 0}

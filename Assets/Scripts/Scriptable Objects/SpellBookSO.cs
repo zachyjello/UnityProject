@@ -1,6 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using Mono.Reflection;
+using System.Linq;
+using System;
 
 namespace Assets.Scripts.Scriptable_Objects
 {
@@ -10,7 +13,7 @@ namespace Assets.Scripts.Scriptable_Objects
         public int spellAmount;
 
         [SerializeReference]
-        public List<ISpellSO> spells;
+        public List<ScriptableObject> spells;
         [SerializeReference]
         public List<ISpellSO> unlockedSpells;
 
@@ -21,12 +24,16 @@ namespace Assets.Scripts.Scriptable_Objects
         }
         public void addSpell(ISpellSO spellToAdd)
         {
-            if (!(spells.Count > spellAmount))
-                spells.Add(spellToAdd);
+            if (spells.Count < spellAmount && spellToAdd is ScriptableObject component)
+            {
+                spells.Add(component);
+            }
+            else
+                Console.WriteLine("SpellBook is full!");
         }
         public List<ISpellSO> getSpells()
         {
-            return spells;
+            return spells.OfType<ISpellSO>().ToList();
         }
         public int getSpellAmount()
         {
