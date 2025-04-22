@@ -70,7 +70,9 @@
     <Compile Include="Assets\Scripts\Scriptable Objects\ISpellSO.cs" />
     <Compile Include="Assets\Scripts\Spells\ISpell.cs" />
     <Compile Include="Assets\FantasyEnvironments\Environments\Town\Scripts\Door.cs" />
+    <Compile Include="Assets\IgniteCoders\Simple Water Shader\Info\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\FireBallSO.cs" />
+    <Compile Include="Assets\IgniteCoders\Simple Water Shader\Resources\WaterReflection.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\GenericEnemySO.cs" />
     <Compile Include="Assets\Scripts\UI\FloatingHealthBar.cs" />
     <Compile Include="Assets\Scripts\PlayerRelated\MoveCamera.cs" />
