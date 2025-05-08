@@ -62,44 +62,75 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerRelated\PlayerCam.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\PlayerDataSO.cs" />
+    <Compile Include="Assets\URPWater\Scripts\URPWaterDynamicEffects.cs" />
+    <Compile Include="Assets\AZURE Nature\Scripts\MouseLook.cs" />
+    <Compile Include="Assets\AZURE Nature\Scripts\MoveController.cs" />
     <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
+    <Compile Include="Assets\URPWater\Demo\Scripts\DragCamera.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\SpellBookSO.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellFireBall.cs" />
     <Compile Include="Assets\Scripts\PlayerRelated\SpellManager.cs" />
     <Compile Include="Assets\Scripts\PlayerRelated\PlayerMovement.cs" />
+    <Compile Include="Assets\URPWater\Scripts\URPWaterReflection.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\ISpellSO.cs" />
     <Compile Include="Assets\Scripts\Spells\ISpell.cs" />
     <Compile Include="Assets\FantasyEnvironments\Environments\Town\Scripts\Door.cs" />
-    <Compile Include="Assets\IgniteCoders\Simple Water Shader\Info\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\FireBallSO.cs" />
-    <Compile Include="Assets\IgniteCoders\Simple Water Shader\Resources\WaterReflection.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\GenericEnemySO.cs" />
+    <Compile Include="Assets\URPWater\Scripts\URPWaterFollowTarget.cs" />
     <Compile Include="Assets\Scripts\UI\FloatingHealthBar.cs" />
     <Compile Include="Assets\Scripts\PlayerRelated\MoveCamera.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IThrowable.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDamageable.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\URPWater\Shaders\HLSL\URPWater_Standard.shader" />
     <None Include="Assets\TerrainSampleAssets\ThirdPartyNotices.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterRefraction.hlsl" />
+    <None Include="Assets\URPWater\Shaders\VFX\NormalFX.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\AZURE Nature\Shaders\AN_Vegetation.shader" />
+    <None Include="Assets\URPWater\Shaders\VFX\URPWaterMask.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\URPWater\Shaders\HLSL\URPWaterDebugRT.shader" />
+    <None Include="Assets\URPWater\Shaders\HLSL\URPWater_Tessellation.shader" />
+    <None Include="Assets\URPWater\Shaders\Resources\URPWaterEffects.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterCommon.hlsl" />
+    <None Include="Assets\AZURE Nature\URP Shaders\Important.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterFog.hlsl" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterFoam.hlsl" />
+    <None Include="Assets\AZURE Nature\Shaders\AN_Surface.shader" />
+    <None Include="Assets\URPWater\Shaders\Resources\URPWaterBlur.hlsl" />
+    <None Include="Assets\AZURE Nature\Documentation\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterVariables.hlsl" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterDynamic.hlsl" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterScattering.hlsl" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterWave.hlsl" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterHelpers.hlsl" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterLighting.hlsl" />
+    <None Include="Assets\AZURE Nature\Shaders\AN_Water.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterTesselation.hlsl" />
+    <None Include="Assets\URPWater\Shaders\VFX\FoamFX.shader" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterReflections.hlsl" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterNormals.hlsl" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\URPWater\Shaders\HLSL\Includes\URPWaterAlpha.hlsl" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TerrainSampleAssets\ShaderGraphs\CustomFunctions\CustomLighting.hlsl" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
@@ -977,12 +1008,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.ShaderGraph.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.TerrainTools">
       <HintPath>Library\ScriptAssemblies\Unity.TerrainTools.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ShaderGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
@@ -1017,6 +1048,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
       <Private>False</Private>
@@ -1041,16 +1076,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualEffectGraph.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
+    <Reference Include="Unity.RenderPipelines.HighDefinition.Config.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.HighDefinition.Config.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.HighDefinition.Config.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.HighDefinition.Config.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Performance.Profile-Analyzer.Editor">
@@ -1105,12 +1136,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.HighDefinition.Editor">

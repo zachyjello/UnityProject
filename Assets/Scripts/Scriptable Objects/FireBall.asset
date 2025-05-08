@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: FireBall
   cooldown: 5
-  fireBallObject: {fileID: 9184619262825297014, guid: 1bc8a4a97b9d6c44bac5e058b159d549, type: 3}
+  fireBallObject: {fileID: 2367587740514654702, guid: 49cec5e7e6191b942bbde8942ae4c9ca, type: 3}
   damage: 5
   manaCost: 5
   speed: 30
