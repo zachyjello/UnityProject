@@ -29,12 +29,13 @@ public class PlayerCam : MonoBehaviour
         
         yRotation += mouseX;
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
+        //Clamp the camera to keep it from going upside down, and if it goes to 90, messes with vector3.forward
+        xRotation = Mathf.Clamp(xRotation, -89, 89);
 
         // Rotate cam and orientation
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         playerData.rotation = transform.rotation;
 
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        orientation.rotation = Quaternion.Euler(xRotation, yRotation, 0);
     }
 }
