@@ -67,6 +67,7 @@
     <Compile Include="Assets\AZURE Nature\Scripts\MoveController.cs" />
     <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
     <Compile Include="Assets\URPWater\Demo\Scripts\DragCamera.cs" />
+    <Compile Include="Assets\Scripts\PlayerRelated\PlayerUtility.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\SpellBookSO.cs" />
     <Compile Include="Assets\Scripts\Spells\SpellFireBall.cs" />
     <Compile Include="Assets\Scripts\PlayerRelated\SpellManager.cs" />
