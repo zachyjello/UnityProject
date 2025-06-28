@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3099516078163936315}
   - component: {fileID: 683234004925071744}
   - component: {fileID: 1493053893303847210}
+  - component: {fileID: 6975314722561050877}
   m_Layer: 7
   m_Name: PlayerObj
   m_TagString: Player
@@ -101,9 +102,32 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &6975314722561050877
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326948044693853340}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1651192806455278766
 GameObject:
@@ -246,18 +270,25 @@ MonoBehaviour:
   moveSpeed: 10
   groundDrag: 0.7
   airDrag: 0.7
-  orientation: {fileID: 7832635040813756983}
+  isInWater: 0
+  cameraOrientation: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   playerHeight: 2
   grounded: 0
+  minGroundDotProduct: 1
+  stepsSinceLastGrounded: 0
+  maxSlopeAngle: 0
   curJumpCount: 0
   maxJumpCount: 2
   jumpCooldown: 1
   jumpTimer: 0
   jumpForce: 10
   playerData: {fileID: 11400000, guid: e3598797b480c2f4bb0b9b31beafe4e0, type: 2}
+  movementState: 0
+  movementStatus: 0
+  elementToDisplay: {fileID: 0}
 --- !u!114 &8166941100148233728
 MonoBehaviour:
   m_ObjectHideFlags: 0
