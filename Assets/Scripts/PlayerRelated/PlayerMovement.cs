@@ -29,6 +29,7 @@ namespace PlayerRelated
         public float jumpCooldown;
         public float jumpTimer;
         public float jumpForce;
+        public bool jumping;
 
         public PlayerDataSO playerData;
 
@@ -67,8 +68,8 @@ namespace PlayerRelated
 
             //Checks for inputs, and grounded
             MyInput();
-            DragControl();
             playerJumpCheck();
+            DragControl();
             SpeedControl();
 
             elementToDisplay.text = $"Velocity: {rb.velocity.magnitude.ToString()} \nOnSlope: {OnSlope()} \nGrounded: {grounded}";
@@ -102,7 +103,7 @@ namespace PlayerRelated
         {
             moveDirection = (yawRotation * Vector3.forward * verticalInput + yawRotation * Vector3.right * horizontalInput).normalized;
 
-            if (OnSlope()) // Only apply slope logic when actually grounded
+            if (OnSlope() && !jumping) // Only apply slope logic when actually grounded
             {
                 rb.AddForce(GetSlopeDirectionNormal() * moveSpeed * 20f, ForceMode.Force);
 
@@ -122,7 +123,9 @@ namespace PlayerRelated
 
         private void DragControl()
         {
-            if (grounded)
+            if (jumping)
+                rb.drag = 0;
+            else if (grounded)
                 rb.drag = groundDrag;
             else
                 rb.drag = airDrag;
@@ -133,7 +136,7 @@ namespace PlayerRelated
             RaycastHit hit;
             bool wasGrounded = grounded;
 
-            grounded = Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight * 0.5f + 0.1f, whatIsGround);
+            grounded = Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight * 0.5f + 0.3f, whatIsGround);
 
             if (grounded)
             {
@@ -180,8 +183,10 @@ namespace PlayerRelated
 
             if (curJumpCount > 0 && jumpCooldown <= 0 && jumpInput)
             {
+                jumping = true;
                 curJumpCount--;
                 rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); //Cancel current vertical velocity
+                rb.drag = 0;
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 jumpCooldown = jumpTimer;
                 doJump = true;
@@ -191,6 +196,9 @@ namespace PlayerRelated
                 doJump = false;
                 jumpCooldown -= Time.deltaTime;
             }
+
+            if (rb.velocity.y < 0 && !OnSlope())
+                jumping = false;
         }
 
         private void DisplayRaycastNormal(RaycastHit hit)
@@ -231,6 +239,8 @@ namespace PlayerRelated
                     Debug.Log("PEnis");
                 }
             }
+
+            if (horizontalInput == 0 && verticalInput == 0 && OnSlope() && !jumping) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         }
 
         private Vector3 GetSlopeDirectionNormal()
