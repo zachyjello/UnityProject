@@ -72,7 +72,7 @@ namespace PlayerRelated
             DragControl();
             SpeedControl();
 
-            elementToDisplay.text = $"Velocity: {rb.velocity.magnitude.ToString()} \nOnSlope: {OnSlope()} \nGrounded: {grounded}";
+            elementToDisplay.text = $"Velocity: {rb.linearVelocity.magnitude.ToString()} \nOnSlope: {OnSlope()} \nGrounded: {grounded}";
         }
 
         private void FixedUpdate()
@@ -107,7 +107,7 @@ namespace PlayerRelated
             {
                 rb.AddForce(GetSlopeDirectionNormal() * moveSpeed * 20f, ForceMode.Force);
 
-                if (rb.velocity.y > 0)
+                if (rb.linearVelocity.y > 0)
                     rb.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
             else
@@ -124,11 +124,11 @@ namespace PlayerRelated
         private void DragControl()
         {
             if (jumping)
-                rb.drag = 0;
+                rb.linearDamping = 0;
             else if (grounded)
-                rb.drag = groundDrag;
+                rb.linearDamping = groundDrag;
             else
-                rb.drag = airDrag;
+                rb.linearDamping = airDrag;
         }
 
         private void groundCheck()
@@ -149,27 +149,27 @@ namespace PlayerRelated
                     return;
 
                 // Just landed (wasn't grounded last frame, now is)
-                if (!wasGrounded && rb.velocity.y <= 0)
+                if (!wasGrounded && rb.linearVelocity.y <= 0)
                 {
                     // Immediately stop all downward movement when landing
-                    rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
 
                     // If landing on a slope, also stop horizontal sliding
                     if (slopeAngle > 1f && slopeAngle < maxSlopeAngle)
                     {
                         // Project current velocity onto the slope to prevent sliding
-                        Vector3 slopeParallel = Vector3.ProjectOnPlane(rb.velocity, hit.normal);
+                        Vector3 slopeParallel = Vector3.ProjectOnPlane(rb.linearVelocity, hit.normal);
                         if (Vector3.Dot(slopeParallel.normalized, Vector3.down) > 0) // If sliding down
                         {
-                            rb.velocity = Vector3.zero; // Stop all movement briefly
+                            rb.linearVelocity = Vector3.zero; // Stop all movement briefly
                         }
                     }
                 }
                 // Already grounded, just smooth out any remaining downward velocity
-                else if (rb.velocity.y < 0)
+                else if (rb.linearVelocity.y < 0)
                 {
                     var lerpFactor = 20f * Time.deltaTime;
-                    rb.velocity = new Vector3(rb.velocity.x, Mathf.Lerp(rb.velocity.y, 0, lerpFactor), rb.velocity.z);
+                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, Mathf.Lerp(rb.linearVelocity.y, 0, lerpFactor), rb.linearVelocity.z);
                 }
             }
         }
@@ -185,8 +185,8 @@ namespace PlayerRelated
             {
                 jumping = true;
                 curJumpCount--;
-                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); //Cancel current vertical velocity
-                rb.drag = 0;
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z); //Cancel current vertical velocity
+                rb.linearDamping = 0;
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 jumpCooldown = jumpTimer;
                 doJump = true;
@@ -197,7 +197,7 @@ namespace PlayerRelated
                 jumpCooldown -= Time.deltaTime;
             }
 
-            if (rb.velocity.y < 0 && !OnSlope())
+            if (rb.linearVelocity.y < 0 && !OnSlope())
                 jumping = false;
         }
 
@@ -225,22 +225,22 @@ namespace PlayerRelated
         {
             if (OnSlope())
             {
-                if (rb.velocity.magnitude > moveSpeedCap) rb.velocity = rb.velocity.normalized * moveSpeedCap;
+                if (rb.linearVelocity.magnitude > moveSpeedCap) rb.linearVelocity = rb.linearVelocity.normalized * moveSpeedCap;
             }
 
             else
             {
-                var flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                var flatVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
                 Debug.Log($"FlatVel: {flatVel.magnitude}");
                 if (flatVel.magnitude > moveSpeedCap)
                 {
                     var limitedVel = flatVel.normalized * moveSpeedCap;
-                    rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+                    rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
                     Debug.Log("PEnis");
                 }
             }
 
-            if (horizontalInput == 0 && verticalInput == 0 && OnSlope() && !jumping) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            if (horizontalInput == 0 && verticalInput == 0 && OnSlope() && !jumping) rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
         }
 
         private Vector3 GetSlopeDirectionNormal()
