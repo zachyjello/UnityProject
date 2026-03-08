@@ -12,6 +12,7 @@ namespace Assets.Scripts
         enemyState state = enemyState.passive;
         public int health = 100;
         public int maxHealth = 100;
+        
         enum enemyState
         {
             passive,

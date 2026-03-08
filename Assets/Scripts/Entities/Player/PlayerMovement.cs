@@ -1,87 +1,194 @@
 using System;
 using Assets.Scripts.Scriptable_Objects;
+using Entities.Player;
 using TMPro;
 using UnityEngine;
 using static Assets.Scripts.PlayerRelated.PlayerUtility;
 
-namespace PlayerRelated
+namespace Entities.Player
 {
+    [RequireComponent(typeof(Rigidbody), typeof(PlayerInput))]
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Movement")] public float moveSpeed;
-        public float moveSpeedCap;
-        public float groundDrag;
-        public float airDrag;
-        public bool isInWater;
-
-        [Header("Ground Check")] public Transform cameraOrientation;
-        public LayerMask whatIsGround;
-        public float playerHeight;
-        public bool grounded;
-        public float minGroundDotProduct = 1;
-        public int stepsSinceLastGrounded;
-
-        [Header("Slope Control")] public float maxSlopeAngle;
-
-        [Header("Jumping")] public int curJumpCount;
-
-        public int maxJumpCount;
-        public float jumpCooldown;
-        public float jumpTimer;
-        public float jumpForce;
-        public bool jumping;
-
+        [Header("References")]
+        [SerializeField] private PlayerInput input;
+        [SerializeField] private Transform cameraOrientation;
+        [SerializeField] private TextMeshProUGUI debugText;
+        [SerializeField] private Rigidbody rb;
         public PlayerDataSO playerData;
-
-        public playerMovementState movementState;
-        public playerMovementStatus movementStatus;
-
-        public TextMeshProUGUI elementToDisplay;
-        private Vector3 contactNormal;
-        private float currentDrag;
-        private bool doJump;
-
-
-        private float horizontalInput;
-        private bool jumpInput;
-
+        
+        [Header("Settings")]
+        [SerializeField] private MovementSettings moveSettings;
+        [SerializeField] private GroundSettings groundSettings;
+        [SerializeField] private JumpSettings jumpSettings;
+        
+        // State Variables
+        private bool isGrounded;
+        private bool onSlope;
+        private bool isJumping;
+        private bool isInWater;
+        private float jumpCooldownTimer;
+        private int remainingJumps;
+        
+        // Physics cache
+        private RaycastHit slopeHit;
         private Vector3 moveDirection;
 
-        private Rigidbody rb;
-        private RaycastHit slopeHit;
-        private Transform usableOrientation;
-
-        private float verticalInput;
-
         // Start is called before the first frame update
-        private void Start()
+        private void Awake()
         {
+            input = GetComponent<PlayerInput>();
             rb = GetComponent<Rigidbody>();
             rb.freezeRotation = true;
+            
+            remainingJumps = jumpSettings.maxJumpCount;
         }
 
+        #region Update Loops
         // Update is called once per frame, used to handle everything that is not directly related to player movement
         private void Update()
         {
-            //Updates position in player data scriptable object
-            playerData.position = transform.position;
-
-            //Checks for inputs, and grounded
-            MyInput();
-            playerJumpCheck();
-            DragControl();
-            SpeedControl();
-
-            elementToDisplay.text = $"Velocity: {rb.linearVelocity.magnitude.ToString()} \nOnSlope: {OnSlope()} \nGrounded: {grounded}";
+            if(playerData != null) playerData.position = transform.position;
+            
+            if (jumpCooldownTimer > 0) jumpCooldownTimer -= Time.deltaTime;
+            
+            if (input.JumpPressed && jumpCooldownTimer <= 0 && remainingJumps > 0) PerformJump();
+            
+            UpdateDebugUI();
         }
 
         private void FixedUpdate()
         {
-            var yawRotation = Quaternion.Euler(0, cameraOrientation.transform.eulerAngles.y, 0);
-            groundCheck();
-            MovePlayer(yawRotation);
+            PerformGroundAndSlopeChecks();
+            CalculateMovementDirection();
+            ApplyMovementPhysics();
+            ApplyDrag();
+            ControlSpeed();
+
+            input.ClearInputTriggers();
+        }
+        #endregion
+        
+        #region Logic
+        private void PerformGroundAndSlopeChecks()
+        {
+            // Ground Check
+            bool wasGrounded = isGrounded;
+            isGrounded = Physics.Raycast(transform.position, Vector3.down, out RaycastHit groundHit, groundSettings.playerHeight * 0.5f + 0.2f, groundSettings.whatIsGround);
+
+            // Slope Check
+            if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, groundSettings.playerHeight * 0.5f + 0.3f))
+            {
+                float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+                onSlope = angle < groundSettings.maxSlopeAngle && angle != 0;
+            }
+            else
+                onSlope = false;
+
+            // Reset Jumps logic
+            if (isGrounded && !isJumping) 
+            {
+                remainingJumps = jumpSettings.maxJumpCount;
+            }
+
+            // Landing Logic
+            if (isGrounded && !wasGrounded && !isJumping) 
+            {
+                // Cancel vertical momentum on landing
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z); 
+            }
+            
+            // Reset Jumping flag if we are falling
+            if (rb.linearVelocity.y < 0) isJumping = false;
         }
 
+        private void CalculateMovementDirection()
+        {
+            Vector3 forward = cameraOrientation.forward;
+            Vector3 right = cameraOrientation.right;
+            
+            forward.y = 0;
+            right.y = 0;
+            forward.Normalize();
+            right.Normalize();
+
+            moveDirection = (forward * input.Vertical + right * input.Horizontal).normalized;
+        }
+        
+        private void PerformJump()
+        {
+            isJumping = true;
+            isGrounded = false;
+            remainingJumps--;
+            jumpCooldownTimer = jumpSettings.jumpCooldown;
+
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            rb.linearDamping = 0;
+            
+            rb.AddForce(transform.up * jumpSettings.jumpForce, ForceMode.Impulse);
+        }
+        
+        private void ApplyMovementPhysics()
+        {
+            Vector3 slopeMoveDir = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
+
+            Vector3 forceToApply;
+            float speedMultiplier = 10f;
+
+            if (onSlope && !isJumping)
+            {
+                forceToApply = slopeMoveDir * moveSettings.moveSpeed * 20f; // Higher force on slopes to fight gravity
+                if (rb.linearVelocity.y > 0) 
+                    rb.AddForce(Vector3.down * 80f, ForceMode.Force); // Stick to slope
+            }
+            else if (isGrounded)
+            {
+                forceToApply = moveDirection * moveSettings.moveSpeed * speedMultiplier;
+            }
+            else // In Air
+            {
+                forceToApply = moveDirection * moveSettings.moveSpeed * speedMultiplier * moveSettings.airMultiplier;
+            }
+
+            rb.AddForce(forceToApply, ForceMode.Force);
+            rb.useGravity = !onSlope;
+        }
+        
+        private void ApplyDrag()
+        {
+            if (isJumping) rb.linearDamping = 0;
+            else if (isGrounded) rb.linearDamping = moveSettings.groundDrag;
+            else rb.linearDamping = moveSettings.airDrag;
+        }
+        
+        private void ControlSpeed()
+        {
+            // On Slope: Limit total magnitude
+            if (onSlope && !isJumping)
+            {
+                if (rb.linearVelocity.magnitude > moveSettings.moveSpeedCap)
+                    rb.linearVelocity = rb.linearVelocity.normalized * moveSettings.moveSpeedCap;
+            }
+            // On Ground/Air: Limit only X/Z, allow Gravity (Y) to accelerate freely
+            else
+            {
+                Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+                if (flatVel.magnitude > moveSettings.moveSpeedCap)
+                {
+                    Vector3 limitedVel = flatVel.normalized * moveSettings.moveSpeedCap;
+                    rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+                }
+            }
+        }
+
+        private void UpdateDebugUI()
+        {
+            if (debugText != null)
+                debugText.text = $"Vel: {rb.linearVelocity.magnitude:F1} | Slope: {onSlope} | Ground: {isGrounded}";
+        }
+        #endregion
+        
+        #region Trigger Events
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("water")) isInWater = true;
@@ -91,161 +198,6 @@ namespace PlayerRelated
         {
             if (other.CompareTag("water")) isInWater = false;
         }
-
-        private void MyInput()
-        {
-            horizontalInput = Input.GetAxisRaw("Horizontal");
-            verticalInput = Input.GetAxisRaw("Vertical");
-            jumpInput = Input.GetKeyDown("space");
-        }
-
-        private void MovePlayer(Quaternion yawRotation)
-        {
-            moveDirection = (yawRotation * Vector3.forward * verticalInput + yawRotation * Vector3.right * horizontalInput).normalized;
-
-            if (OnSlope() && !jumping) // Only apply slope logic when actually grounded
-            {
-                rb.AddForce(GetSlopeDirectionNormal() * moveSpeed * 20f, ForceMode.Force);
-
-                if (rb.linearVelocity.y > 0)
-                    rb.AddForce(Vector3.down * 80f, ForceMode.Force);
-            }
-            else
-            {
-                rb.AddForce(moveDirection * moveSpeed * 10f, ForceMode.Force);
-            }
-
-            //rb.velocity = new Vector3(rb.velocity.x * currentDrag, rb.velocity.y, rb.velocity.z * currentDrag);
-            //rb.drag = currentDrag;
-            // Only disable gravity when grounded AND on slope
-            rb.useGravity = !OnSlope();
-        }
-
-        private void DragControl()
-        {
-            if (jumping)
-                rb.linearDamping = 0;
-            else if (grounded)
-                rb.linearDamping = groundDrag;
-            else
-                rb.linearDamping = airDrag;
-        }
-
-        private void groundCheck()
-        {
-            RaycastHit hit;
-            bool wasGrounded = grounded;
-
-            grounded = Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight * 0.5f + 0.3f, whatIsGround);
-
-            if (grounded)
-            {
-                DisplayRaycastNormal(hit);
-
-                var playerVector = transform.up;
-                var slopeAngle = Vector3.Angle(playerVector, hit.normal);
-
-                if (hit.distance > playerHeight * 0.5f)
-                    return;
-
-                // Just landed (wasn't grounded last frame, now is)
-                if (!wasGrounded && rb.linearVelocity.y <= 0)
-                {
-                    // Immediately stop all downward movement when landing
-                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-
-                    // If landing on a slope, also stop horizontal sliding
-                    if (slopeAngle > 1f && slopeAngle < maxSlopeAngle)
-                    {
-                        // Project current velocity onto the slope to prevent sliding
-                        Vector3 slopeParallel = Vector3.ProjectOnPlane(rb.linearVelocity, hit.normal);
-                        if (Vector3.Dot(slopeParallel.normalized, Vector3.down) > 0) // If sliding down
-                        {
-                            rb.linearVelocity = Vector3.zero; // Stop all movement briefly
-                        }
-                    }
-                }
-                // Already grounded, just smooth out any remaining downward velocity
-                else if (rb.linearVelocity.y < 0)
-                {
-                    var lerpFactor = 20f * Time.deltaTime;
-                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, Mathf.Lerp(rb.linearVelocity.y, 0, lerpFactor), rb.linearVelocity.z);
-                }
-            }
-        }
-
-        private void playerJumpCheck()
-        {
-            if (grounded)
-            {
-                curJumpCount = maxJumpCount;
-            }
-
-            if (curJumpCount > 0 && jumpCooldown <= 0 && jumpInput)
-            {
-                jumping = true;
-                curJumpCount--;
-                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z); //Cancel current vertical velocity
-                rb.linearDamping = 0;
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                jumpCooldown = jumpTimer;
-                doJump = true;
-            }
-            else
-            {
-                doJump = false;
-                jumpCooldown -= Time.deltaTime;
-            }
-
-            if (rb.linearVelocity.y < 0 && !OnSlope())
-                jumping = false;
-        }
-
-        private void DisplayRaycastNormal(RaycastHit hit)
-        {
-            var incomingVec = hit.point - gameObject.transform.position;
-            var reflectVec = Vector3.Reflect(incomingVec, hit.normal);
-            Debug.DrawLine(gameObject.transform.position, hit.point, Color.red);
-            Debug.DrawRay(hit.point, reflectVec, Color.green);
-            Debug.DrawRay(transform.position, cameraOrientation.transform.forward, Color.blue);
-        }
-
-        private bool OnSlope()
-        {
-            if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
-            {
-                var angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-                return angle < maxSlopeAngle && angle != 0;
-            }
-
-            return false;
-        }
-
-        private void SpeedControl()
-        {
-            if (OnSlope())
-            {
-                if (rb.linearVelocity.magnitude > moveSpeedCap) rb.linearVelocity = rb.linearVelocity.normalized * moveSpeedCap;
-            }
-
-            else
-            {
-                var flatVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-                Debug.Log($"FlatVel: {flatVel.magnitude}");
-                if (flatVel.magnitude > moveSpeedCap)
-                {
-                    var limitedVel = flatVel.normalized * moveSpeedCap;
-                    rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
-                    Debug.Log("PEnis");
-                }
-            }
-
-            if (horizontalInput == 0 && verticalInput == 0 && OnSlope() && !jumping) rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-        }
-
-        private Vector3 GetSlopeDirectionNormal()
-        {
-            return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
-        }
+        #endregion
     }
 }
