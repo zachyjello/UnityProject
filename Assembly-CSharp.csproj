@@ -64,7 +64,6 @@
     <Compile Include="Assets/ImportedAssetPacks/URPWater/Scripts/URPWaterFollowTarget.cs" />
     <Compile Include="Assets/Scripts/Entities/Player/PlayerCam.cs" />
     <Compile Include="Assets/ImportedAssetPacks/URPWater/Demo/Scripts/DragCamera.cs" />
-    <Compile Include="Assets/Scripts/Shaders/OutlineNormalBacker.cs" />
     <Compile Include="Assets/Scripts/Spells/SpellFireBall.cs" />
     <Compile Include="Assets/ImportedAssetPacks/AZURE Nature/Scripts/MoveController.cs" />
     <Compile Include="Assets/Scripts/Scriptable Objects/ISpellSO.cs" />
